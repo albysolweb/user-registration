@@ -1,26 +1,2 @@
 [
-  {
-    "firstName": "test",
-    "lastName": "Singar",
-    "email": "contact@albysol.com",
-    "dob": "2024-03-13",
-    "gender": "male",
-    "address": "asdfg"
-  },
-  {
-    "firstName": "test",
-    "lastName": "Singar",
-    "email": "contact@albysol.com",
-    "dob": "2024-03-13",
-    "gender": "male",
-    "address": "asdfg"
-  },
-  {
-    "firstName": "test",
-    "lastName": "Singar",
-    "email": "contact@albysol.com",
-    "dob": "2024-03-15",
-    "gender": "male",
-    "address": "asdfasdf"
-  }
 ]
