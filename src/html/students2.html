@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Students List</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .grid-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="row" id="grid-container"></div>
+</div>
+
+<!-- Bootstrap JS and jQuery (required for Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Function to create grid from JSON data
+    function createGrid(data) {
+        var gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = ''; // Clear previous content
+
+        data.forEach(function(item) {
+            var gridItem = document.createElement('div');
+            gridItem.classList.add('col-md-4', 'grid-item');
+            var content = '<strong>Name:</strong> ' + item.firstName + ' ' + item.lastName + '<br>';
+            content += '<strong>Email:</strong> ' + item.email + '<br>';
+            content += '<strong>Dob:</strong> ' + item.dob + '<br>';
+            content += '<strong>Gender:</strong> ' + item.gender + '<br>';
+            content += '<strong>Address:</strong> ' + item.address;
+            gridItem.innerHTML = content;
+            gridContainer.appendChild(gridItem);
+        });
+    }
+
+    // Fetch JSON data from server
+    fetch('data')
+        .then(response => response.json())
+        .then(data => createGrid(data))
+        .catch(error => console.error('Error fetching JSON:', error));
+</script>
+</body>
+</html>

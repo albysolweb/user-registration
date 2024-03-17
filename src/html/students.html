@@ -1,52 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JSON Grid Display</title>
-<!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<style>
-    .grid-item {
-        border: 1px solid #ccc;
-        padding: 10px;
-    }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student List</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <div class="row" id="grid-container"></div>
+
+<div class="container mt-4">
+  <h1>Student List</h1>
+  <div class="row mt-3">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="studentTableBody">
+          <!-- Student data will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+        <a href="register.html" class="btn btn-primary">Register New Student</a>
+    </div>
+  </div>
 </div>
 
-<!-- Bootstrap JS and jQuery (required for Bootstrap) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script>
-    // Function to create grid from JSON data
-    function createGrid(data) {
-        var gridContainer = document.getElementById('grid-container');
-        gridContainer.innerHTML = ''; // Clear previous content
 
-        data.forEach(function(item) {
-            var gridItem = document.createElement('div');
-            gridItem.classList.add('col-md-4', 'grid-item');
-            var content = '<strong>Name:</strong> ' + item.firstName + ' ' + item.lastName + '<br>';
-            content += '<strong>Email:</strong> ' + item.email + '<br>';
-            content += '<strong>Dob:</strong> ' + item.dob + '<br>';
-            content += '<strong>Gender:</strong> ' + item.gender + '<br>';
-            content += '<strong>Address:</strong> ' + item.address;
-            gridItem.innerHTML = content;
-            gridContainer.appendChild(gridItem);
-        });
-    }
-
-    // Fetch JSON data from server
+  // Fetch data from the URL
+  function loadData() {
     fetch('data')
         .then(response => response.json())
-        .then(data => createGrid(data))
-        .catch(error => console.error('Error fetching JSON:', error));
+        .then(data => {
+        const studentTableBody = document.getElementById('studentTableBody');
+        studentTableBody.innerHTML = '';
+        // If data is empty or null
+        if (!data || data.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan=6> No records found</td>';
+            studentTableBody.appendChild(row);
+            return;
+        }
+
+        // Loop through each student in the data and create table rows
+        data.forEach(student => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td>${student.firstName} ${student.lastName}</td>
+            <td>${student.email}</td>
+            <td>${student.dob}</td>
+            <td>${student.gender}</td>
+            <td>${student.address}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" onclick="deleteRecord('${student.id}')">Delete</button>
+            </td>
+            `;
+            studentTableBody.appendChild(row);
+        });
+        })
+        .catch(error => {
+        console.error('Error fetching data:', error);
+        });
+}
+
+  // Function to handle registering a new student
+  function registerStudent() {
+    // You can implement the logic to register a new student here
+    alert("Register a new student"); // For demonstration purposes
+  }
+
+  // Function to handle record deletion
+  function deleteRecord(id) {
+
+    if (!confirm(`Are you sure you want to delete this with ID: ${id} ?`)) {
+      return;
+    }
+
+    fetch(`/students/${id}`, {
+      method: 'DELETE',
+    })
+    .then(response => {
+    })
+    .catch(error => {
+      console.error('Error deleting record:', error);
+    });
+
+    alert(`Delete record with ID: ${id}`);
+    loadData();
+  }
+
+  loadData();
 </script>
+
 </body>
 </html>
