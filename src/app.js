@@ -9,11 +9,11 @@ const PORT = 3000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'html')));
 
 // Routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'html', 'login.html'));
 });
 
 // Login endpoint
@@ -43,12 +43,12 @@ app.get('/data', (req, res) => {
 
 // List page
 app.get('/students', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'students.html'));
+    res.sendFile(path.join(__dirname, 'html', 'students.html'));
 });
 
 // Registration page
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+    res.sendFile(path.join(__dirname, 'html', 'register.html'));
 });
 
 // Registration endpoint
